@@ -10,7 +10,6 @@ const hashPassword = async (plaintextPassword) => {
 };
 
 const getUserById = async (id) => {
-
   const result = await userDao.getUserById(id);
 
   return result;
@@ -22,13 +21,13 @@ const presignIn = async (phoneNumber) => {
   return phoneNumberCheck;
 };
 
-const signUp = async (userName, phoneNumber,password, CI) => {
+const signUp = async (userName, phoneNumber, password, CI) => {
   validateEmailAndPassword(phoneNumber, password);
   const hashedPassword = await hashPassword(password);
   const createUser = await userDao.createUser(
-    userName, 
-    phoneNumber, 
-    hashedPassword, 
+    userName,
+    phoneNumber,
+    hashedPassword,
     CI
   );
 
@@ -63,50 +62,48 @@ const signIn = async (phoneNumber, password) => {
   );
   return {
     id: user.id,
-    accessToken, 
+    accessToken,
     userName: user.user_name,
     profileImage: user.profile_image,
   };
 };
 
-const changePassword = async(id, existingPassword, newPassword) => {
+const changePassword = async (id, existingPassword, newPassword) => {
   if (!id || !existingPassword) {
-    throw new Error('User not found');
+    throw new Error("User not found");
   }
-  
+
   const user = await userDao.findUserByUsername(id);
 
   const isMatch = await bcrypt.compare(existingPassword, user.password);
   if (!isMatch) {
-    return {message: "INVALID_PASSWORD" };
+    return { message: "INVALID_PASSWORD" };
   }
 
   const hashedPassword = await hashPassword(newPassword);
   const passwordchange = await userDao.updatePassword(id, hashedPassword);
-  
+
   return passwordchange;
 };
 
-const updateProfileImageURL = async(id, uploadedFileURL) =>{
-
+const updateProfileImageURL = async (id, uploadedFileURL) => {
   const getUserById = await userDao.getUserById(id);
 
   const profileImage = await userDao.updateProfileImageURL(id, uploadedFileURL);
   return profileImage;
-}
+};
 
-const getDefaultProfileImage  = async(userId) => {
-
-  const result =  await userDao.getDefaultProfileImage(userId);
+const getDefaultProfileImage = async (userId) => {
+  const result = await userDao.getDefaultProfileImage(userId);
 
   return result;
-}
-module.exports = { 
-  presignIn, 
-  getUserById, 
-  signUp, 
+};
+module.exports = {
+  presignIn,
+  getUserById,
+  signUp,
   signIn,
   changePassword,
   updateProfileImageURL,
-  getDefaultProfileImage
+  getDefaultProfileImage,
 };

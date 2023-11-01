@@ -49,7 +49,7 @@ const getUserFinances = async (userID, providerID) => {
 
     const options = {
       method: "POST",
-      uri: "http://10.58.52.75:3000/mydata/account",
+      uri: "http://localhost:4000/mydata/account",
       body: {
         CI: CI,
         providerIDs: ID,
@@ -98,7 +98,7 @@ const postTransactions = async (userID, data) => {
 
       const options = {
         method: "POST",
-        uri: "http://10.58.52.75:3000/mydata",
+        uri: "http://localhost:4000/mydata",
         body: {
           CI: CI,
           userFinancesId: userFinancesID,

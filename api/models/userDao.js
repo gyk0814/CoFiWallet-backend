@@ -25,10 +25,9 @@ const createUser = async (userName, phoneNumber, hashedPassword, CI) => {
       `
         INSERT INTO users (
           CI,
-          user_name, 
+          user_name,
           phone_number,
-          password,
-          CI
+          password
         ) VALUES (
           ?,
           ?,
@@ -36,16 +35,15 @@ const createUser = async (userName, phoneNumber, hashedPassword, CI) => {
           ?
         )
       `,
-      [userName, phoneNumber, hashedPassword, CI]
+      [CI, userName, phoneNumber, hashedPassword]
     );
     return result;
-  } catch{
+  } catch {
     const error = new Error("dataSource Error #createUser");
     error.statusCode = 400;
     throw error;
   }
 };
-
 
 const getUserByPhoneNumber = async (phoneNumber) => {
   try {
@@ -94,8 +92,8 @@ const getUserById = async (id) => {
   }
 };
 
-const findUserByUsername = async(id) => {
-  try{
+const findUserByUsername = async (id) => {
+  try {
     const [result] = await AppDataSource.query(
       `
       SELECT
@@ -108,15 +106,15 @@ const findUserByUsername = async(id) => {
       [id]
     );
     return result;
-  }catch{
+  } catch {
     const error = new Error("SELECT ERROR");
     error.statusCode = 401;
     throw error;
   }
 };
 
-const updatePassword = async(userId, hashedPassword) =>{
-  try{
+const updatePassword = async (userId, hashedPassword) => {
+  try {
     const result = await AppDataSource.query(
       `
       UPDATE users
@@ -124,18 +122,18 @@ const updatePassword = async(userId, hashedPassword) =>{
       password = ?
       WHERE id= ?
       `,
-    [hashedPassword, userId]
+      [hashedPassword, userId]
     );
     return result;
-  }catch{
+  } catch {
     const error = new Error("invalid password");
     error.statusCode = 400;
     throw error;
   }
-}
+};
 
-const updateProfileImageURL = async(id,uploadedFileURL) =>{
-  try{
+const updateProfileImageURL = async (id, uploadedFileURL) => {
+  try {
     const result = await AppDataSource.query(
       `
       UPDATE users
@@ -145,16 +143,16 @@ const updateProfileImageURL = async(id,uploadedFileURL) =>{
       `,
       [uploadedFileURL, id]
     );
-    return result
-  }catch{
+    return result;
+  } catch {
     const eroor = new Error("URL dataSource ERROR");
     eroor.statusCode = 400;
     throw error;
   }
-}
+};
 
-const getDefaultProfileImage  = async(userId) => {
-  try{
+const getDefaultProfileImage = async (userId) => {
+  try {
     const result = await AppDataSource.query(
       `
       SELECT
@@ -165,21 +163,21 @@ const getDefaultProfileImage  = async(userId) => {
       `,
       [userId]
     );
-    return result
-  }catch{
+    return result;
+  } catch {
     const error = new Error("dataSource Error");
     error.stautsCode = 400;
-    throw error
+    throw error;
   }
-}
+};
 
-module.exports = { 
-  phoneNumberCheck, 
-  createUser, 
-  getUserByPhoneNumber, 
+module.exports = {
+  phoneNumberCheck,
+  createUser,
+  getUserByPhoneNumber,
   getUserById,
   findUserByUsername,
   updatePassword,
   updateProfileImageURL,
-  getDefaultProfileImage
+  getDefaultProfileImage,
 };
