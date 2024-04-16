@@ -31,12 +31,12 @@ https://github.com/gyk0814/CoFiWallet-backend/assets/49557580/25690228-7ec7-4501
 
 
 
-<--!
-- Provide general information about your project here.
-- What problem does it (intend to) solve?
-- What is the purpose of your project?
-- Why did you undertake it?
-  -->
+
+
+<!-- - What problem does it (intend to) solve? -->
+<!-- - What is the purpose of your project? -->
+<!-- - Why did you undertake it? -->
+  
 
 
 ## Technologies Used
